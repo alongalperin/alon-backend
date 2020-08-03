@@ -1,7 +1,10 @@
 ## Alon Home Assignment ##
 ---
 
-**Base url:** https://alon-backend.herokuapp.com/api/v1
+**Base url:** https://alon-backend.herokuapp.com/api/v1  
+  
+**How to run localy** (not mandatory)**:**  
+After git clone, run terminal inside project directory and run the command `python app.py`
   
 ----
 ### Write Message ###
