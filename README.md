@@ -168,3 +168,7 @@ The user is defined in the headers as messages-user.
     * **Code:** 403 Forbidden <br />
     **Content:** `{'error': 'Only message sender or receiver can delete messages'}`
   
+  or
+    * **Code:** 404 Not Found <br />
+    **Content:** `{'error': 'Message did not found'}`
+    
