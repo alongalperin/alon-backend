@@ -10,8 +10,8 @@ app = Flask(__name__)
 # Add dictionary data structure to app for storing messages in RAM memory
 app.config["messages"] = {}
 
-# from routes import users_routes
-# from routes import messages_routes
+from routes import users_routes
+from routes import messages_routes
 
 @app.route("/")
 def hello():
