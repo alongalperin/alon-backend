@@ -36,7 +36,7 @@
  
 * **Error Response:**
 
-  * **Code:** 400 UNAUTHORIZED <br />
+  * **Code:** 400 Bad Request <br />
     **Content:** `{'error': ['Please add messages-user parameter to the request header set the username as the value']}`
 ----  
   
