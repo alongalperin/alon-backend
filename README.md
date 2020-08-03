@@ -5,7 +5,7 @@
 
 ### Write Message ###
 ----
-  Creates message on the server.
+  Creates a message on the server.
 
 * **URL**
 
@@ -18,19 +18,21 @@
 *  **URL Params**
 
    **Required:**
+   
+   None
+
+* **Data Params**
+
    `messages-user=[string]` - The sender is a parameter in the headers of the request. This mimic a situation of user after login.
    `receiver=[string]`
    `subject=[string]`
    `message=[string]`
 
-* **Data Params**
-
-  None
-
 * **Success Response:**
 
-  * **Code:** 200 <br />
-    **Content:** `{ id : 12, name : "Michael Bloom" }`
+  * **Code:** 201 CREATED <br />
+    **Content:** `{'data': {'2e109eb2': {'sender': 'alon', 'receiver': 'test2', 'subject': 'Message head', 'message': 'Message body',
+'id': '2e109eb2', 'date': '03/08/2020 12:49:38', 'is_read': False}}}`
  
 * **Error Response:**
 
