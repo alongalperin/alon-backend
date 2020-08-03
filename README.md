@@ -24,9 +24,9 @@
      **Required:**
 
    `messages-user=[string]` - The sender is a parameter in the headers of the request. This mimic a situation of user after login.
-   `receiver=[string]`
-   `subject=[string]`
-   `message=[string]`
+   `receiver=[string]`  
+   `subject=[string]`  
+   `message=[string]`  
 
 * **Success Response:**
 
@@ -45,7 +45,7 @@
 
 * **URL**
 
-  /users/<receiver-name>/messages
+  `/users/<receiver-name>/messages`
 
 * **Method:**
 
