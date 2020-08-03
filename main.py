@@ -5,7 +5,7 @@ from flask import Flask,request
 from Utils import validations_utils
 from Utils import utils
 
-app = Flask(__name__)
+app = Flask("main")
 
 # Add dictionary data structure to app for storing messages in RAM memory
 global_messages = {}

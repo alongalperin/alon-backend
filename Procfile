@@ -1,2 +1,2 @@
 web: gunicorn wsgi:app
-heroku ps:scale worker=2
+heroku ps:scale web=1
