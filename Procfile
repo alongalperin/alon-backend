@@ -1,2 +1,1 @@
-web: gunicorn main:app
-heroku ps:scale web=1
+gunicorn wsgi:app --workers 16
