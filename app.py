@@ -16,19 +16,19 @@ global_messages = {}
 def add_message():
     sender = request.headers.get('messages-user')
     new_message = request.get_json(force=True)
+    new_message["sender"] = sender
     
     errors = validations_utils.validate_message(new_message)
     if len(errors) > 0:
-        return str(errors)
+        return str({"error": errors}), 400
 
     id = utils.generate_id()
-    new_message['sender'] = sender
     new_message['id'] = id
     new_message['date'] = utils.get_current_date_as_string()
     new_message['is_read'] = False
 
     global_messages[id] = new_message
-    return str({"data": global_messages})
+    return str({"data": global_messages}), 201
 
 @app.route("/api/v1/messages/<message_id>/read", methods=["PATCH"]) # todo: change to patch method
 def read_message_by_id(message_id):
@@ -43,9 +43,9 @@ def delete_message(message_id):
     requesting_user = request.headers.get('messages-user')
     message = global_messages.get(message_id)
     if message is None:
-        return str({"error": "Message did not found"})
+        return str({"error": "Message did not found"}), 404
     if message["sender"] != requesting_user and message["receiver"] != requesting_user:
-        return str({"error": "Only message sender or receiver can delete messages"})
+        return str({"error": "Only message sender or receiver can delete messages"}), 403
     del global_messages[message_id]
     return str({})
 
@@ -56,7 +56,7 @@ def delete_message(message_id):
 
 @app.route("/api/v1/users/<username>/messages", methods=["GET"])
 def fetch_all_messages_by_user(username):
-    filtered_messages = utils.filter_messages_by_username(messages, username)
+    filtered_messages = utils.filter_messages_by_username(global_messages, username)
     return str({"data": filtered_messages})
 
 @app.route("/api/v1/users/<username>/messages/unread", methods=["GET"])
