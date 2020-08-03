@@ -55,7 +55,7 @@
 
    **Required:**
    
-   `receiver=[string]`
+   `receiver-name=[string]`
   
 * **Data Params**
 
@@ -70,3 +70,70 @@
 * **Error Response:**
   
   None
+  
+----  
+### Get all unread messages for a specific user ###
+  Get all unread messages of a specific **receiver**.
+
+* **URL**
+
+  `/users/<receiver-name>/messages/unread`
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+   
+   `receiver-name=[string]`
+  
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `{'data': [{'sender': 'alon', 'receiver': 'test-user', 'subject': 'Message head', 'message': 'Message body', 'id':
+'93b97cc1', 'date': '03/08/2020 16:41:14', 'is_read': False}]}}`
+ 
+* **Error Response:**
+  
+  None
+
+  ----  
+### Read message (return one message) ###
+Changes the is_read of a specific message to true. Returns the message after the update.
+
+* **URL**
+
+  `/messages/<message_id>/read`
+
+* **Method:**
+
+  `PATCH`
+  
+*  **URL Params**
+
+   **Required:**
+   
+   `message_id=[string]`
+  
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `{'data': [{'sender': 'alon', 'receiver': 'test-user', 'subject': 'Message head', 'message': 'Message body', 'id':
+'93b97cc1', 'date': '03/08/2020 16:41:14', 'is_read': True}]}}`
+ 
+* **Error Response:**
+  
+  None
+  
+  ----  
+  
