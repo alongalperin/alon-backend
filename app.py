@@ -12,7 +12,7 @@ global_messages = {}
 
 #################### Messages Routes ####################
 
-@app.route("/messages", methods=["POST"])
+@app.route("/api/v1/messages", methods=["POST"])
 def add_message():
     sender = request.headers.get('messages-user')
     new_message = request.get_json(force=True)
@@ -30,7 +30,7 @@ def add_message():
     global_messages[id] = new_message
     return str({"data": global_messages})
 
-@app.route("/messages/<message_id>/read", methods=["PATCH"]) # todo: change to patch method
+@app.route("/api/v1/messages/<message_id>/read", methods=["PATCH"]) # todo: change to patch method
 def read_message_by_id(message_id):
     message = global_messages.get(message_id)
     if message is None:
@@ -38,7 +38,7 @@ def read_message_by_id(message_id):
     message["is_read"] = True
     return str({"data": message})
 
-@app.route("/messages/<message_id>", methods=["DELETE"]) # todo: change to patch method
+@app.route("/api/v1/messages/<message_id>", methods=["DELETE"]) # todo: change to patch method
 def delete_message(message_id):
     requesting_user = request.headers.get('messages-user')
     message = global_messages.get(message_id)
@@ -54,12 +54,12 @@ def delete_message(message_id):
 
 ###################### Uers Routes ######################
 
-@app.route("/users/<username>/messages", methods=["GET"])
+@app.route("/api/v1/users/<username>/messages", methods=["GET"])
 def fetch_all_messages_by_user(username):
     filtered_messages = utils.filter_messages_by_username(messages, username)
     return str({"data": filtered_messages})
 
-@app.route("/users/<username>/messages/unread", methods=["GET"])
+@app.route("/api/v1/users/<username>/messages/unread", methods=["GET"])
 def get_unread_messages_by_user(username):
     user_messages = utils.filter_messages_by_username(global_messages, username)
     unread_messages = list(filter(lambda message: message["is_read"] == False, user_messages))
@@ -67,8 +67,7 @@ def get_unread_messages_by_user(username):
 
 ###################### End Uers Routes #################
 
-
-@app.route("/")
+@app.route("/api/v1")
 def hello():
     return str({"data": "Hello World!"})
 
