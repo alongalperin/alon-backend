@@ -103,7 +103,7 @@
   
   None
 
-  ----  
+----  
 ### Read message (return one message) ###
 Changes the is_read of a specific message to true. Returns the message after the update.
 
@@ -135,5 +135,36 @@ Changes the is_read of a specific message to true. Returns the message after the
   
   None
   
-  ----  
+----  
+  ### Delete message (as owner or as receiver) ###
+
+Delete message by ID. This Method requires that the deleting user will be or the receiver or sender of the message.
+The user is defined in the headers as messages-user.
+
+* **URL**
+
+  `/messages/<message_id>`
+
+* **Method:**
+
+  `DELETE`
+  
+*  **URL Params**
+
+   **Required:**
+   
+   `message_id=[string]`
+  
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `{}`
+ 
+* **Error Response:**
+    * **Code:** 403 Forbidden <br />
+    **Content:** `{'error': 'Only message sender or receiver can delete messages'}`
   
