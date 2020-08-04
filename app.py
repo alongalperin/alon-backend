@@ -26,11 +26,13 @@ def add_message():
     new_message['id'] = id
     new_message['date'] = utils.get_current_date_as_string()
     new_message['is_read'] = False
+    new_message['deleted_for_sender'] = False
+    new_message['deleted_for_receiver'] = False
 
     global_messages[id] = new_message
     return str({"data": global_messages}), 201
 
-@app.route("/api/v1/messages/<message_id>/read", methods=["PATCH"]) # todo: change to patch method
+@app.route("/api/v1/messages/<message_id>/read", methods=["PATCH"])
 def read_message_by_id(message_id):
     message = global_messages.get(message_id)
     if message is None:
@@ -38,7 +40,7 @@ def read_message_by_id(message_id):
     message["is_read"] = True
     return str({"data": message})
 
-@app.route("/api/v1/messages/<message_id>", methods=["DELETE"]) # todo: change to patch method
+@app.route("/api/v1/messages/<message_id>", methods=["DELETE"])
 def delete_message(message_id):
     requesting_user = request.headers.get('messages-user')
     message = global_messages.get(message_id)
@@ -46,7 +48,10 @@ def delete_message(message_id):
         return str({"error": "Message did not found"}), 404
     if message["sender"] != requesting_user and message["receiver"] != requesting_user:
         return str({"error": "Only message sender or receiver can delete messages"}), 403
-    del global_messages[message_id]
+    if requesting_user == message["sender"]:
+        message["deleted_for_sender"] = True
+    if requesting_user == message["receiver"]:
+        message["deleted_for_receiver"] = True 
     return str({})
 
 ################# End Messages Routes ###################
@@ -56,14 +61,16 @@ def delete_message(message_id):
 
 @app.route("/api/v1/users/<username>/messages", methods=["GET"])
 def fetch_all_messages_by_user(username):
-    filtered_messages = utils.filter_messages_by_username(global_messages, username)
-    return str({"data": filtered_messages})
+    filtered_by_receiver = utils.filter_messages_by_receiver_username(global_messages, username)
+    marked_deleted = utils.mark_deleted_messages_for_username(filtered_by_receiver, username)
+    return str({"data": marked_deleted})
 
 @app.route("/api/v1/users/<username>/messages/unread", methods=["GET"])
 def get_unread_messages_by_user(username):
-    user_messages = utils.filter_messages_by_username(global_messages, username)
+    user_messages = utils.filter_messages_by_receiver_username(global_messages, username)
     unread_messages = list(filter(lambda message: message["is_read"] == False, user_messages))
-    return str({"data": unread_messages})
+    marked_deleted = utils.mark_deleted_messages_for_username(filtered_messages, username)
+    return str({"data": marked_deleted})
 
 ###################### End Uers Routes #################
 
